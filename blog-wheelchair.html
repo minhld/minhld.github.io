@@ -76,45 +76,46 @@
 								<div></div>
 								<div class="post-wrapper">
 									<div class="post-header">
-										<h1 class="post-title">My Observation System</h1>
+										<h1 class="post-title">Wheelchair Project</h1>
 										<ul class="post-meta h6">
-											<li>November 19, 2017</li>
+											<li>December 06, 2017</li>
 										</ul>
 									</div>
 									<div class="post-content">
 										<p>
-										<!--<img src="http://129.123.7.41:8181/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;">-->
-										Image is disabled
+										Wheelchair Project is from the Electrical and Computer Engineering (ECE) department at Utah State University, I worked on this project during the Summer 2017. Since the project has not completed and turned to the 2nd phase, I will only summarize some of the work that I have done and committed. 										 
 										</p>
 										<p>
-										<b>Brief</b><br/>
-										The observation system uses a camera to detect movements and light changes in our office. 
-										If an event happens, the system will analyze in detail the motion and save it into the database with an evident.
-										User with permission can retrieve the evident by clicking on the corresponding event on the right panel.
+										My work is to develop a controller to drive the real wheelchair to the charging pad. The wheelchair detects the pad around the room and find the way to move ahead once the pad is found.
 										</p>
 										<p>
-										<b>Design</b><br>
-										In this project, I used <a href="http://robots.ros.org/">ROS platform</a> for video streaming from the camera to the third party application.
-										I made the Monitor App which subscribes to the video stream of the ROS system, this app uses <a href="https://opencv.org">OpenCV</a> to process every single frame to detect motions. 
-										<p style="text-align: center;">
-										<img src="assets/images/blog/cam_project.png" >
+										<a href="http://gazebosim.org/">Gazebo Simulator</a> is used to virtualize behaviors of the actual wheelchair through <a href="http://www.ros.org/">ROS</a>.
+										<img src="assets/images/blog/wc11.png" width="500px"/>
+										<br/><br/>
+										<img src="assets/images/blog/wc18.png" width="500px"/>							
 										</p>
 										<p>
-										The image process comprises:
-										<ul>
-											<li>Step 1: turning the image into grayscale</li>
-											<li>Step 2: subtracting two consecutive images to find the differences</li>
-											<li>Step 3: detect and draw contours of the difference areas</li>
-										</ul>
-										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event, it will be saved to the <b>File System</b> and the according event is stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
-										</p><p>
-										For the accessibility of mobile and web apps to the File Server and events in the database, I designed a <b>REST Service</b> hosted on Tomcat server, this web service provides basic functionality for listing and deleting events, as well as retrieving evident imageries. I also developed a <b>Video Streaming</b> topic to enable video streaming to the web and mobile apps. The video stream is available in the form of URL so that developer can easily embed in an IMG tag.
+										The charging part is temporarily designed in red color. It has some texture on the top so that our algorithm can detect the exact location (to draw on the coordinator) using <a href="https://opencv.org/">OpenCV</a>. User can adjust the parameters of the software to fit the new environment with different illuminations or changes of charging pad.
+										<br/>Some OpenCV techniques are used here such as Gauss image blurring, color filtering, contour detecting, transformation and distance estimation. <br/>
+										<img src="assets/images/blog/wc13.png" width="500px"/>										
+										<br/><br/>
+										<img src="assets/images/blog/wc17.png" width="500px"/>							
 										</p>
-										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. On Android platform, I used <a href="http://wiki.ros.org/android">ROS For Android</a> library to be capable of connecting to the ROS system.
+										<p>
+										A ROS Manager program we developed to manage the entire ROS system (topics and data) of a server. User can add/remove a topics and watch real-time data.
+										<img src="assets/images/blog/wc12.png" width="500px"/>
+										</p>
+										<p>
+										We also develop the Android app for the sake of user convenience. The Android version provides a convenient way to drive the wheelchair using joystick. Also, a 3D model developed using <a href="https://developer.android.com/guide/topics/graphics/opengl.html">OpenGL for Android</a> provide a better view of the wheelchair and the charging pad.
+										<img src="assets/images/blog/wc15.png" width="500px"/>										
+										<br/><br/>
+										<img src="assets/images/blog/wc16.png" width="500px"/>							
+										</p>
+										<p>
 										</p>
 									</div>
 									<div class="post-footer">
-										<div class="post-tags"><a href="#">ROS</a><a href="#">OpenCV</a><a href="#">MongoDB</a><a href="#">jQuery</a><a href="#">ROS Android</a></div>
+										<div class="post-tags"><a href="#">Lifestyle</a><a href="#">Music</a><a href="#">News</a><a href="#">Travel</a></div>
 									</div>
 								</div>
 							</article>
@@ -207,8 +208,5 @@
 		<script src="assets/js/custom.min.js"></script>
 		<!-- Color Switcher (Remove these lines)-->
 		<script src="assets/js/style-switcher.min.js"></script>
-		
-		<!-- Custom JavaScript to add event listener -->
-		<script src="assets/custom/observer.js"></script>
 	</body>
 </html>
