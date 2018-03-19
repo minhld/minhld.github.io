@@ -35,7 +35,8 @@ function updateEvents() {
 	$eventContainer.append(loadItem);
 	
 	$.ajax({
-		url: 'receiveEvents',
+		// url: 'receiveEvents',
+		url: 'http://129.123.7.41:8080/minhlab/receiveEvents',
 		type: 'post',
 		dataType: 'json',
 		data: {
