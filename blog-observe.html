@@ -83,8 +83,9 @@
 									</div>
 									<div class="post-content">
 										<p>
-										<!--<img src="http://129.123.7.41:8181/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;">-->
-										Image is disabled
+										<!-- <img src="http://129.123.7.41:8181/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;"> -->
+										<img src="http://129.123.7.41:9090/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;">
+										<!-- Image is disabled -->
 										</p>
 										<p>
 										<b>Brief</b><br/>
@@ -108,9 +109,15 @@
 										</ul>
 										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event, it will be saved to the <b>File System</b> and the according event is stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
 										</p><p>
+										<img src="assets/images/blog/cam_monitor.png">
+										</p><p>
 										For the accessibility of mobile and web apps to the File Server and events in the database, I designed a <b>REST Service</b> hosted on Tomcat server, this web service provides basic functionality for listing and deleting events, as well as retrieving evident imageries. I also developed a <b>Video Streaming</b> topic to enable video streaming to the web and mobile apps. The video stream is available in the form of URL so that developer can easily embed in an IMG tag.
 										</p>
 										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. On Android platform, I used <a href="http://wiki.ros.org/android">ROS For Android</a> library to be capable of connecting to the ROS system.
+										</p>
+										<p>
+										<img src="assets/images/blog/app_1.png" width="250">
+										<img src="assets/images/blog/app_2.png" width="250">
 										</p>
 									</div>
 									<div class="post-footer">
