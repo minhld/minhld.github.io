@@ -83,30 +83,83 @@
 									</div>
 									<div class="post-content">
 										<p>
-										Wheelchair Project is from the Electrical and Computer Engineering (ECE) department at Utah State University, I worked on this project during the Summer 2017. Since the project has not completed and turned to the 2nd phase, I will only summarize some of the work that I have done and committed. 										 
+										Wheelchair Controlling System is the project from Electrical and Computer Engineering (ECE) Department at Utah State University. 
+										I worked on this project during the Summer 2017. 
+										Since the project has not been completed and turned to the 2nd phase, I just listed some of the completed work that I have committed. 										 
 										</p>
 										<p>
-										My work is to develop a controller to drive the real wheelchair to the charging pad. The wheelchair detects the pad around the room and find the way to move ahead once the pad is found.
+										In this project, my duty is
+											<ul>
+												<li>Integrate Robot OS and Gazebo for testing</li>
+												<li>Deploying 3D wheelchair on Gazebo and implementing a controller to drive it through the defined ROS topics</li>
+												<li>Writing the controller on MatLab</li>
+												<li>Writing the visual controller app to run on the TX2 computer putting on the real wheelchair</li>
+												<li>Designing the image processing algorithm to detect and drive the wheelchair to the charging pad</li>
+												<li>Developing the Android controller app with 3D view</li>
+											</ul>
 										</p>
 										<p>
-										<a href="http://gazebosim.org/">Gazebo Simulator</a> is used to virtualize behaviors of the actual wheelchair through <a href="http://www.ros.org/">ROS</a>.
+										<b>System Integration</b><br/>
+										So I installed <a href="http://www.ros.org/">Robot OS</a> as the middleware to let software interplays with hardware over the published topics.
+										Then, I deployed the 3D wheelchair on <a href="http://gazebosim.org/">Gazebo</a>, this model listens to the <strong>velocity</strong> and <strong>webcam</strong> topics to obtain locations and pictures.
+										</p>
+										<p>
 										<img src="assets/images/blog/wc11.png" width="500px"/>
 										<br/><br/>
 										<img src="assets/images/blog/wc18.png" width="500px"/>							
 										</p>
 										<p>
-										The charging part is temporarily designed in red color. It has some texture on the top so that our algorithm can detect the exact location (to draw on the coordinator) using <a href="https://opencv.org/">OpenCV</a>. User can adjust the parameters of the software to fit the new environment with different illuminations or changes of charging pad.
-										<br/>Some OpenCV techniques are used here such as Gauss image blurring, color filtering, contour detecting, transformation and distance estimation. <br/>
+										<b>The Controlling System</b><br/>
+										I designed and developed the visual controller app that run on Ubuntu (OS that runs on the TX2) using Java AWT. This controller has following features
+										<ul>
+											<li>Display the video stream from the embedded camera</li>
+											<li>Display the first step of the image processing, the captured pad and the transformation result</li>
+											<li>Find relative location of the wheelchair with the pad at the original point</li>
+											<li>Show the image processing time and list of current topics</li>
+											<li>Allow Settings with all available parameters</li>
+											<li>Navigation buttons to manually drive the wheelchair, and function to automatically drive the chair</li>
+										</ul>
 										<img src="assets/images/blog/wc13.png" width="500px"/>										
-										<br/><br/>
-										<img src="assets/images/blog/wc17.png" width="500px"/>							
 										</p>
 										<p>
-										A ROS Manager program we developed to manage the entire ROS system (topics and data) of a server. User can add/remove a topics and watch real-time data.
+										<b>Image Processing</b><br/>
+										The wheelchair captures pictures on its movement and process every single picture to detect charging pad and find location.
+										I used Java AWT for the app, so I recompiled the <a href="https://opencv.org/">OpenCV 3.0</a> library to work on Ubuntu and work with the <a href="http://opencv-java-tutorials.readthedocs.io/en/latest/">OpenCV for Java</a>.  
+										Because the bottom process is on OpenCV C library, thus the processing speed on Java is almost the same as on native C language.
+										The algorithm is as follows
+										<ul>
+											<li>Use Gaussian blur to remove noise</li>
+											<li>Filter colors using HSV to only capture objects with specific colors</li>
+											<li>Use Erosion and Dilation to avoid the particles and signify the detect objects</li>
+											<li>Detect object edges using Canny Detection functions and draw the object boundarys</li>
+											<li>Estimate distance from the camera to the detected object using Focal detection</li>
+											<li>Find the direction using Transformation with texture on the pad</li>
+										</ul>
+										
+										All the parameters for each sub process are adjustable in the Settings dialog.
+										When user clicks on <b>Find Path</b> button, the wheelchair will start spinning slowly to find the pad. 
+										When the pad is at the center of the image, the wheelchair will move forward to the pad, in the meantime, the image processor is still running to keep track of the moves.
+										When it is 6 feet away from the pad, the wheelchair turns into the auto mode, it estimate the time and drive forward during that period. 
+										<br/><br/>
+										<img src="assets/images/blog/wc17.png" width="500px"/>	
+										</p>
+										
+										<p>
+										<b>ROS Management System</b><br/>
+										I developed the Robot OS Management System to have full access to all the ROS topics, including a real-time data viewer and an info view.
+										I enabled the simple functions: double click on a topic and a real-time viewer will pop in the left window. It can watch any topics from video streams to primitive types.
+										<br/><br/>
 										<img src="assets/images/blog/wc12.png" width="500px"/>
 										</p>
 										<p>
-										We also develop the Android app for the sake of user convenience. The Android version provides a convenient way to drive the wheelchair using joystick. Also, a 3D model developed using <a href="https://developer.android.com/guide/topics/graphics/opengl.html">OpenGL for Android</a> provide a better view of the wheelchair and the charging pad.
+										<b>Android App</b><br/>
+										Android is an interesting app that I developed for this project.
+										The front activity of the app contains the following info: (1) video stream sent from ROS, (2) coordinate system to capture the transitions of location, (3) a joystick for user to control the wheelchair and (4) information of the movement and battery percentage.
+										The second activity shows the 3D environment including the wheelchair and the pad with the real injected location data. With the 3D model, user will know where the pad is and drive using joystick toward to it, even when they don't see the pad.
+										<br/><br/>
+										I used <a href="http://wiki.ros.org/android">ROS for Android</a> library to develop the first activity, including the joystick and info window.
+										I used <a href="https://developer.android.com/guide/topics/graphics/opengl.html">OpenGL for Android</a> to develop the 3D environment.
+										<br/><br/>
 										<img src="assets/images/blog/wc15.png" width="500px"/>										
 										<br/><br/>
 										<img src="assets/images/blog/wc16.png" width="500px"/>							
