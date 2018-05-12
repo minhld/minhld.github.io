@@ -78,47 +78,55 @@
 									<div class="post-header">
 										<h1 class="post-title">My Observation System</h1>
 										<ul class="post-meta h6">
-											<li>November 19, 2017</li>
+											<li>March 19, 2018</li>
 										</ul>
 									</div>
 									<div class="post-content">
 										<p>
 										<!-- <img src="http://129.123.7.41:8181/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;"> -->
-										<img src="http://129.123.7.41:9090/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;">
+										<!-- <img src="http://129.123.7.41:9090/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;"> -->
 										<!-- Image is disabled -->
 										</p>
 										<p>
-										<b>Brief</b><br/>
-										This is the research project that I proposed. 
-										The observation system uses a camera to detect movements and light changes in our office. 
-										If an event happens, the system will analyze in detail the motion and save it into the database with an evident.
-										User with permission can retrieve the evident by clicking on the corresponding event on the right panel.
+										<b>Intro</b><br/>
+										This is my research project based on the Image Processing technique that I learned from the <a href="blog-wheelchair.html">Wheelchair Project</a>, web and Android development.
+										The observation system uses a camera to detect human movements and light changes in our office. 
+										If an event happens, the system will capture the motion series and store them into the file system and database as evidents.
+										User with permission can retrieve the evidents including captured pictures and the evident details.
 										</p>
 										<p>
 										<b>Design</b><br>
-										In this project, I used <a href="http://robots.ros.org/">ROS platform</a> for video streaming from the camera to the third party application.
-										I made the Monitor App which subscribes to the video stream of the ROS system, this app uses <a href="https://opencv.org">OpenCV</a> to process every single frame to detect motions. 
+										In this project, I used <a href="http://robots.ros.org/">Robot OS</a> as the framework for video streaming from the camera to the third party applications. ROS supports nicely video streaming using <a href="http://wiki.ros.org/video_stream_opencv">video_stream_opencv</a> package.
+										I created the <strong>Monitor App</strong> to subscribe to the video stream topics in ROS system, this app uses Java AWT and the Image Processing uses <a href="https://opencv.org">OpenCV</a> to process every single frame to detect motions. 
 										<p style="text-align: center;">
 										<img src="assets/images/blog/cam_project.png" >
 										</p>
 										<p>
+										<b>Image Process</b><br>
 										The image process comprises:
 										<ul>
 											<li>Step 1: turning the image into grayscale</li>
 											<li>Step 2: subtracting two consecutive images to find the differences</li>
-											<li>Step 3: detect and draw contours of the difference areas</li>
+											<li>Step 3: detect and draw the boundaries of all the contours of the difference areas</li>
 										</ul>
-										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event, it will be saved to the <b>File System</b> and the according event is stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
+										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event. The frames will be saved to the <b>File System</b> and the according event records are stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
 										</p><p>
 										<img src="assets/images/blog/cam_monitor.png">
-										</p><p>
+										</p>
+										<p>
+										<b>REST APIs</b><br>
 										For the accessibility of mobile and web apps to the File Server and events in the database, I designed a <b>REST Service</b> hosted on Tomcat server, this web service provides basic functionality for listing and deleting events, as well as retrieving evident imageries. I also developed a <b>Video Streaming</b> topic to enable video streaming to the web and mobile apps. The video stream is available in the form of URL so that developer can easily embed in an IMG tag.
 										</p>
-										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. On Android platform, I used <a href="http://wiki.ros.org/android">ROS For Android</a> library to be capable of connecting to the ROS system.
+										<p>
+										<b>Front-end Apps</b><br>
+										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. I also created a simple Android app using <a href="http://wiki.ros.org/android">ROS For Android</a> library. This library allows me to connect to the central ROS system for video streaming on Android. To call REST APIs, I used <a href="http://square.github.io/okhttp/">OkHttp</a> library.
 										</p>
 										<p>
 										<img src="assets/images/blog/app_1.png" width="250">
 										<img src="assets/images/blog/app_2.png" width="250">
+										</p>
+										<p>
+										Source code for the Android can be found on my <a href="https://github.com/minhld/MobileServiceMiddleware/tree/master/observer">Github page</a>.
 										</p>
 									</div>
 									<div class="post-footer">
@@ -219,6 +227,6 @@
 		<script src="assets/js/style-switcher.min.js"></script>
 		-->
 		<!-- Custom JavaScript to add event listener -->
-		<script src="assets/custom/observer.js"></script>
+		<!-- <script src="assets/custom/observer.js"></script> -->
 	</body>
 </html>
