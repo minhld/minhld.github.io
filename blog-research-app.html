@@ -76,19 +76,15 @@
 								<div></div>
 								<div class="post-wrapper">
 									<div class="post-header">
-										<h1 class="post-title">My Observation System</h1>
+										<h1 class="post-title">Android RMI Application</h1>
 										<ul class="post-meta h6">
-											<li>November 19, 2017</li>
+											<li>May 01, 2018</li>
 										</ul>
 									</div>
 									<div class="post-content">
 										<p>
-										<!-- <img src="http://129.123.7.41:8181/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;"> -->
-										<img src="http://129.123.7.41:9090/stream?topic=/camera/image_raw" alt="" style="width:320px; height:240px;">
-										<!-- Image is disabled -->
-										</p>
-										<p>
-										<b>Brief</b><br/>
+										<b>Intro</b><br/>
+										This application based on my <a href="blog-research.html">Android RMI</a> research.
 										The observation system uses a camera to detect movements and light changes in our office. 
 										If an event happens, the system will analyze in detail the motion and save it into the database with an evident.
 										User with permission can retrieve the evident by clicking on the corresponding event on the right panel.
@@ -98,7 +94,7 @@
 										In this project, I used <a href="http://robots.ros.org/">ROS platform</a> for video streaming from the camera to the third party application.
 										I made the Monitor App which subscribes to the video stream of the ROS system, this app uses <a href="https://opencv.org">OpenCV</a> to process every single frame to detect motions. 
 										<p style="text-align: center;">
-										<img src="assets/images/blog/cam_project.png" >
+										<img src="assets/images/blog/app-01.png" width="300px">
 										</p>
 										<p>
 										The image process comprises:
@@ -108,20 +104,19 @@
 											<li>Step 3: detect and draw contours of the difference areas</li>
 										</ul>
 										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event, it will be saved to the <b>File System</b> and the according event is stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
-										</p><p>
-										<img src="assets/images/blog/cam_monitor.png">
+										</p><p style="text-align: center;">
+										<img src="assets/images/blog/app-02.png" width="300px">
 										</p><p>
 										For the accessibility of mobile and web apps to the File Server and events in the database, I designed a <b>REST Service</b> hosted on Tomcat server, this web service provides basic functionality for listing and deleting events, as well as retrieving evident imageries. I also developed a <b>Video Streaming</b> topic to enable video streaming to the web and mobile apps. The video stream is available in the form of URL so that developer can easily embed in an IMG tag.
 										</p>
 										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. On Android platform, I used <a href="http://wiki.ros.org/android">ROS For Android</a> library to be capable of connecting to the ROS system.
 										</p>
-										<p>
-										<img src="assets/images/blog/app_1.png" width="250">
-										<img src="assets/images/blog/app_2.png" width="250">
+										<p style="text-align: center;">
+										<img src="assets/images/blog/app-03.png" width="300px">
 										</p>
 									</div>
 									<div class="post-footer">
-										<div class="post-tags"><a href="#">ROS</a><a href="#">OpenCV</a><a href="#">MongoDB</a><a href="#">jQuery</a><a href="#">ROS Android</a></div>
+										<div class="post-tags"><a href="#">Anroid</a><a href="#">WiFi-Direct</a><a href="#">RMI</a><a href="#">Retrofit</a><a href="#">NanoHttpd</a></div>
 									</div>
 								</div>
 							</article>
@@ -143,29 +138,21 @@
 								
 								<aside class="widget widget_recent_entries_custom">
 									<div class="widget-title">
-										<h6>Recent Notices</h6>
+										<h6>Related Projects</h6>
 									</div>
 									<ul id="event_container">
-										<!--  
 										<li class="clearfix">
-											<div class="wi">
-												<img src="assets/images/widgets/2.jpg" alt="">
-											</div>
-											<div class="wb">
-												Experience the sound of a modern and clean Bluetooth Speaker
-												<span class="post-date">00:00:06 AM - May 8, 2016</span>
+											<div>
+												<a href="blog-research.html">RMI on Android</a>
+												<span class="post-date">October 06, 2017</span>
 											</div>
 										</li>
 										<li class="clearfix">
-											<div class="wi">
-												<img src="assets/images/widgets/2.jpg" alt="">
-											</div>
-											<div class="wb">
-												Experience the sound of a modern and clean Bluetooth Speaker
-												<span class="post-date">00:00:02 AM - May 8, 2016</span>
+											<div>
+												<a href="blog-observe.html">Observation System</a>
+												<span class="post-date">March 19, 2018</span>
 											</div>
 										</li>
-										-->
 									</ul>
 								</aside>
 		
@@ -174,7 +161,7 @@
 									<div class="widget-title">
 										<h6>Tags</h6>
 									</div>
-									<div class="tagcloud"><a href="#">e-commerce</a><a href="#">portfolio</a><a href="#">responsive</a><a href="#">bootstrap</a><a href="#">business</a><a href="#">corporate</a></div>
+									<div class="tagcloud"><a href="#">Anroid</a><a href="#">WiFi-Direct</a><a href="#">RMI</a><a href="#">Retrofit</a><a href="#">NanoHttpd</a></div>
 								</aside>
 							</div>
 						</div>
@@ -217,7 +204,5 @@
 		<!--  
 		<script src="assets/js/style-switcher.min.js"></script>
 		-->
-		<!-- Custom JavaScript to add event listener -->
-		<script src="assets/custom/observer.js"></script>
 	</body>
 </html>
