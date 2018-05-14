@@ -98,19 +98,26 @@
 												<li>Developing the Android controller app with 3D view</li>
 											</ul>
 										</p>
+										<p style="text-align: center;">
+											<img src="assets/images/blog/wc20.jpg" width="380px"/>
+										</p>
 										<p>
 										<b>System Integration</b><br/>
 										So I installed <a href="http://www.ros.org/">Robot OS</a> as the middleware to let software interplays with hardware over the published topics.
 										Then, I deployed the 3D wheelchair on <a href="http://gazebosim.org/">Gazebo</a>, this model listens to the <strong>velocity</strong> and <strong>webcam</strong> topics to obtain locations and pictures.
 										</p>
-										<p>
-										<img src="assets/images/blog/wc11.png" width="500px"/>
-										<br/><br/>
-										<img src="assets/images/blog/wc18.png" width="500px"/>							
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc10.png"/>
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc11.png"/>
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc18.png"/>
 										</p>
 										<p>
 										<b>The Controlling System</b><br/>
-										I designed and developed the visual controller app that run on Ubuntu (OS that runs on the TX2) using Java AWT. This controller has following features
+										I designed and developed the visual controller app that run on Ubuntu (OS that runs on the TX2) using Java AWT. This controller has the following features
 										<ul>
 											<li>Display the video stream from the embedded camera</li>
 											<li>Display the first step of the image processing, the captured pad and the transformation result</li>
@@ -119,7 +126,9 @@
 											<li>Allow Settings with all available parameters</li>
 											<li>Navigation buttons to manually drive the wheelchair, and function to automatically drive the chair</li>
 										</ul>
-										<img src="assets/images/blog/wc13.png" width="500px"/>										
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc13.png"/>										
 										</p>
 										<p>
 										<b>Image Processing</b><br/>
@@ -140,16 +149,23 @@
 										When user clicks on <b>Find Path</b> button, the wheelchair will start spinning slowly to find the pad. 
 										When the pad is at the center of the image, the wheelchair will move forward to the pad, in the meantime, the image processor is still running to keep track of the moves.
 										When it is 6 feet away from the pad, the wheelchair turns into the auto mode, it estimate the time and drive forward during that period. 
-										<br/><br/>
-										<img src="assets/images/blog/wc17.png" width="500px"/>	
 										</p>
-										
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc17.png"/>	
+										</p>
+										<p>
+										For the better performance of pad detection, I also developed a tool to measure the correctness of pad detection using line analysis. This algorithm helps to detect pad even in the low illuminated places.
+										</p>
+										<p style="text-align: center;">
+											<img src="assets/images/blog/wc19.png"/>
+										</p>
 										<p>
 										<b>ROS Management System</b><br/>
 										I developed the Robot OS Management System to have full access to all the ROS topics, including a real-time data viewer and an info view.
 										I enabled the simple functions: double click on a topic and a real-time viewer will pop in the left window. It can watch any topics from video streams to primitive types.
-										<br/><br/>
-										<img src="assets/images/blog/wc12.png" width="500px"/>
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc12.png" />
 										</p>
 										<p>
 										<b>Android App</b><br/>
@@ -159,12 +175,19 @@
 										<br/><br/>
 										I used <a href="http://wiki.ros.org/android">ROS for Android</a> library to develop the first activity, including the joystick and info window.
 										I used <a href="https://developer.android.com/guide/topics/graphics/opengl.html">OpenGL for Android</a> to develop the 3D environment.
-										<br/><br/>
-										<img src="assets/images/blog/wc15.png" width="500px"/>										
-										<br/><br/>
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/wc15.png" width="500px"/>
+										</p>
+										<p style="text-align: center;">
 										<img src="assets/images/blog/wc16.png" width="500px"/>							
 										</p>
 										<p>
+										The below video shows how the Android app and its 3D feature work
+										</p>
+										<p style="text-align: center;">
+											<iframe style="width: 500px; height: 330px;" src="https://www.youtube.com/embed/qUtqtkukfHs"></iframe>
+											<iframe style="width: 500px; height: 330px;" src="https://www.youtube.com/embed/qBURPNKs7Pc"></iframe>
 										</p>
 									</div>
 									<div class="post-footer">

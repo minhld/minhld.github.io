@@ -76,23 +76,129 @@
 								<div></div>
 								<div class="post-wrapper">
 									<div class="post-header">
-										<h1 class="post-title">Wheelchair Project</h1>
+										<h1 class="post-title">INGRIM: A Middleware to Enable Remote Method Invocation Routing in Multiple Group Device-to-Device Networks</h1>
 										<ul class="post-meta h6">
 											<li>December 06, 2017</li>
 										</ul>
 									</div>
 									<div class="post-content">
 										<p>
-										Automatic Wheelchair is a project at the Electrical and Computer Engineering department at Utah State University.
-										 
+										<b>Intro</b><br>
+										This article introduces <b>INGRIM</b> - an Inter-group Remote Invocation Middleware, the library-based middleware system to enable routing remote method invocation over multiple group device-to-device networks. INGRIM provides annotations for declaring distribution decision and out-of-box components that enable peer-to-peer offloading, even when a client app and the service provider do not have a direct network link or Internet connectivity.
 										</p>
 										<p>
-										.
+										<b>WiFi-Direct</b><br>
+										WiFi Direct is a new peer-to-peer communication standard built on top of the IEEE 802.11 to provide direct connections between the Wi-Fi-enabled devices without Internet connections. With WiFi Direct, a single device can only belong to a single group at any time. It is possible, though, for a device to still use its legacy WiFi client (LC) to connect to an Internet access points or any other peer device directly.  
 										</p>
 										<p>
-										In this project, I used ROS platform for video streaming from the camera to the third parties, OpenCV for image processing.
-										The back-end server is built with Java Servlet and MongoDB.
-										For web front-end, I used JQuery and Bootstrap libraries for interactions and template.  
+										WiFi Direct forms short-range opportunistic networks by polling available nearby devices and electing a Group Owner (GO).  When a device becomes GO, it establishes a virtual access point (i.e., soft AP) and starts a DHCP service to automatically assign IP addresses (range of 192.168.49.0/24) for itself and other clients of its group.  
+										</p>
+										<p>
+										Since WiFi Direct only allows each device to belong to one group, the members of a group (including the group owner) cannot use WiFi Direct to talk to members of another group, or to an Internet access point for that matter. Fortunately, WiFi Direct does not preclude the direct use an LC and it exposes a GO's soft AP to other devices outside the group. So, an app running in another group can use its LC to establish a communication link to the GO of the first group. After its LC is connected, that LC will be assigned an IP in from the GO's DHCP's IP range.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-01.png" width="380px">
+										</p>
+										<p>
+										<b>Service Definition</b><br/>
+										Developer indicates a class as service by declaring <code>@MobileService</code> annotation on the class prototype, where <i>transmission type</i> can be either binary (<code>TransmitType.Binary</code>) or JSON format (<code>TransmitType.JSON</code>). By default <i>transmission type</i> is set to <code>Binary</code> but user can select <code>JSON</code> for the simple request wrapping primitive data such as <code>String</code>, this option is useful to display messages while they are routing in <code>DEBUG</code> mode. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-02.png" width="380px">
+										</p>
+										<p>
+										<code>Service</code> functions always come with <code>@ServiceMethod</code> annotation, the other functions without this annotation will be excluded during the compilation. There are two options for function <i>synchronous mode</i>: <code>Async</code> - the result is handled by a <i>common handler</i> and system can jump immediately to the next call, <code>Sync</code> - the request device is blocked until the result arrives. The below code shows a service sample with two simple functions <code>greeting</code> in <code>Sync</code> mode and <code>getFolderList</code> in <code>Async</code> mode.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-03.png" width="380px">
+										</p>
+										<p>
+										During the compilation, the <code>AnnotationProcessor</code> module will automatically generate the <code>Proxy</code> and <code>Skeleton</code> classes that are going to be placed on the local and remote devices. <code>Proxy</code> is a generated class which resides on the local device to dispatch function call requests. It has the same function list as the <code>Service</code> but inner implementation is the generated code to convert function call to a request message. A <code>Proxy</code> contains an instance of <code>FrontEnd</code> for <code>synchronous</code> calls and a <code>Sender</code> for the <code>asynchronous</code>, for <code>ServiceA</code>, the <code>Proxy</code> has assigned name by default, which is <code>ServiceAProxy</code>.
+										</p>
+										<p>
+										The <code>Skeleton</code> is a generated class which resides on the remote device to resolve function requests. <code>Skeleton</code> inherits <code>BackEnd</code> class and contains an instance of the <code>Service</code> to call the corresponding function if it receives a request with the same <code>functionName</code>. By default, the <code>Skeleton</code> is assigned with the name <code>ServiceASkeleton</code>.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-05.png" width="380px">
+										</p>
+										<p>
+										<b>Proxy and Skeleton In Use</b><br/>
+										INGRIM library is modularized by components that are possible to cooperate with both WiFi and WiFi Direct, application developer therefore can opt to construct any network topology they may expect. 
+
+										Developer firstly installs the <code>ServiceASkeleton</code> on the remote device, it will come with a <code>Broker</code> to host the services and trigger connection with another device.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-06.png" width="350px">
+										</p>
+										<p>
+										On the local device developer starts a <code>Broker</code> to host services and a <code>Bridge</code> to reach out for the remote <code>Broker</code>. Then, he starts <code>ServiceAProxy</code> and declare how to handle incoming responses from <i>asynchronous function calls</i> in the <code>receive()</code> callback. In the callback implementation, <code>msgType</code> indicates whether a message is <code>information</code> (<code>BROKER_INFO</code>) or <i>response message</i> (function name), the developer is required to add appropriate code to manipulate the responses.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-07.png" width="380px">
+										</p>
+										<p>
+										<b>INGRIM Components</b><br/>
+										The middleware is constituted by 6 main components: <code>Broker</code>, <code>BackEnd</code>, <code>FrontEnd</code>, <code>Sender</code>, <code>Receiver</code> and <code>Bridge</code>, each has different functionality but shares the basic structure including <i>ring buffers</i> to buffer incoming and outgoing messages, and <i>ZMQ sockets</i>.
+										</p>
+										<p>
+										Figure below depicts the preexisted communications among the components. In Figure \ref{fig:grim_coms}-1, <code>BackEnd</code> connects and registers its services to <code>Broker</code> while the <code>Broker</code> buffers the request messages sent from <code>FrontEnd</code>, forwards each request to the corresponding <code>BackEnd</code> to resolve and forwards result back to the <code>FrontEnd</code>. This type operates in <i>asynchronous</i> mode, the <code>FrontEnd</code>'s callback handler is where incoming messages such as results and info messages are proceeded. Figure below introduces a more sophisticated strategy with the involvement of a <code>Bridge</code>, an intermediate between two <code>Brokers</code>. The <code>Bridge</code> consists of a <code>FrontEnd</code> and <code>BackEnd</code>, one connects to the left <code>Broker</code> and another connects to the right. These two types will be used for <i>Peer-to-Peer</i> and <i>Group-to-Group</i> modes.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-19.png" width="330px">
+										</p>
+										<p>
+										These components don't start at the same time. Generally, <code>Broker</code> always starts first right after network has been established to either host services for its current group or interconnect with the other groups. Then, <code>BackEnds</code> come after <code>Broker</code> to register their services, when it starts, it sends service definition in JSON format to the <code>Broker</code>. The service definition consists of (1) <code>action</code> as an indicator for <code>Broker</code> to register/unregister the <code>BackEnd</code>'s service, (2) <code>BackEnd</code>'s <code>ID</code> and (3) <code>functions</code> -- the list of provided functions, each contains information of function name, input and output parameters.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-08.png" width="320px">
+										</p>
+										<p>
+										<b>Conversion of Function Call to Message</b><br/>
+										On <code>FrontEnd</code>/<code>Sender</code>, INGRIM dispatches a function call over the network by converting it into a <i>request message</i> object, then serializing the request into binary array for network transmission. On <code>BackEnd</code>/<code>Receiver</code>, it deserializes the binary array back to <i>request message</i> object, passes the object data into parameters and calls the real function. Finally, it fills the result into a <i>response message</i>, serializes into binary format and sends to the network. To this end, <code>AnnotationProcessor</code> module scans the entire project and generates the wrapping classes including the pairs: <code>FrontEnd</code> - <code>BackEnd</code> and <code>Receiver</code> - <code>Receiver</code> for all defined services marked with <code>@MobileService</code> annotations.
+										</p>
+										<p>
+										On <code>FrontEnd</code>/<code>Sender</code>, the <code>RequestMessage</code> class defines the <i>request message</i> object. The request includes: (1) <code>functionName</code> to keep the name of function, (2) <code>InParams</code> to contain types and values of input parameters and (3) <code>OutParam</code> to describe the type of output parameter; the parameter type can be a single value or an array of any primitive or user-defined object, as long as the relative classes exist in the <i>classpath</i> during the compilation and execution on all devices. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-09.png" width="380px">
+										</p>
+										<p>
+										Code Snippet below shows the execution mechanism of <code>BackEnd</code>/<code>Receiver</code> to handle a request by deserializing the binary data back to <code>RequestMessage</code> object and categorizing it using <code>functionName</code> attribute. Inside each <i>method handler</i> (each <b>case</b>), input parameters collected from <code>InParams</code> attribute of the request message are passed to the actual function call of the service instance (<code>serviceA</code>) and the output type is from <code>OutParam</code>. Finally, the result of the call is wrapped within a <code>ResponseMessage</code> along with the name and type, then it is thrown back to the <code>Broker</code>. To support asynchronicity, <code>BackEnd</code> or <code>Receiver</code> handles each request on a single thread, the middleware allow at most 5 threads running simultaneously by default. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-10.png" width="380px">
+										</p>
+										<p>
+										<b>Message Flows</b><br/>
+										In ZMQ, a message traveling between the two sockets needs at least 2 parameters: <i>identity</i> of the destination and <i>message content</i>. To avoid overheads of message transit on the intermediates, I design message format with the following fields: <code>ReceiverId</code> -- identity of the destination, <code>IDs</code> - ID chain of passed <code>FrontEnds</code> on the route, <code>FuncName</code> and <code>Message</code> -- a binary form of serialized <code>Message</code> object. Particularly, <code>IDs</code> keeps a series of <code>FrontEnd</code> IDs which it passes along the way to <code>BackEnd</code>, for example in the below Figure when the message arrives at the <code>BackEnd</code> the value of <code>IDs</code> is <code>"1/100/200"</code> where 1 is the ID of <code>FrontEnd</code> #1, 100 is the ID of <code>Bridge</code>'s <code>FrontEnd</code> #1 and 200 is the ID of <code>Bridge</code>'s <code>FrontEnd</code> #2. <code>IDs</code> is concatenated when the message arrives at <code>Broker</code> from the <code>FrontEnd</code> and popped out to use when it arrives at the <code>Broker</code> from <code>BackEnd</code>. Finally, a message comes with <code>startTime</code> and <code>timeout</code> to define how long the message should be available in the route, the request will be marked as <i>failed</i> if the response doesn't come out before the timeout. 
+										</p>
+										<p>
+										A message to <code>Broker</code> doesn't need an address because a <code>FrontEnd</code> connects to only one <code>Broker</code>, so the first message's <code>ReceiverId</code> is <code>EMPTY</code> and <code>IDs</code> is "<code>1</code>" since the message came out from <code>FrontEnd</code> with ID is 1. When <code>Broker</code> receives the  request, it looks up <code>FuncName</code> in the <code>FunctionMap</code> to find the corresponding <code>BackEnd</code>/<code>Bridge</code> and forwards the message, for this example the destination is a <code>Bridge</code>. The <code>Bridge</code> concatenates <code>IDs</code> with the ID of its <code>FrontEnd</code> ("<code>1/100</code>" - since <code>Bridge</code>'s <code>FrontEnd</code> ID is 100) and forwards the request to the next <code>Broker</code>. This process repeats until the request eventually meets the <code>BackEnd</code> which owns the requesting function and gets resolved. 
+										</p>
+										<p>
+										If for any reasons the request can't find the <code>BackEnd</code>, a denial message with flag <code>BACKEND_NOT_FOUND</code> will be sent back to the <code>FrontEnd</code> as response. This case happens when the request message gets lost at a <code>Broker</code> where the requesting function is not available in its list.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-11.png" width="390px">
+										</p>
+										<p>
+										Figure below illustrates a Response flow from <code>BackEnd</code> to the requesting <code>FrontEnd</code>. When the response arrives at <code>Broker</code>, the <code>Broker</code> will extract the first ID in the <code>IDs</code> and put it to the <code>ReceiverId</code> so that the response can find way to the next <code>FrontEnd</code>. If the <code>FrontEnd</code> has not defined handler for the response, it will forward the message to the next <code>Broker</code>. This process repeats until the <code>IDs</code> is <code>EMPTY</code>, in other words the response arrives at the requesting <code>FrontEnd</code>.
+										</p>
+										<p>
+										If for any reasons the response can't find the way back to the <code>FrontEnd</code> (when <code>ReceiverId</code> not found or <code>IDs</code> is <code>EMPTY</code>, the <code>FrontEnd</code> will wait until timeout to report <code>UNAVAILABLE_SERVICE</code> error. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-12.png" width="390px">
+										</p>
+										<p>
+										<b>Group-to-Group Communications</b><br/>
+										
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-15.png">
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/rs-16.png">
 										</p>
 									</div>
 									<div class="post-footer">
@@ -179,6 +285,7 @@
 			<!-- Footer end-->
 		</div>
 		<!-- Wrapper end-->
+		<link id="style-switcher" href="assets/css/template-green.css" rel="stylesheet" type="text/css">
 
 		<!-- Scripts-->
 		<script src="assets/js/jquery-2.2.4.min.js"></script>
@@ -188,6 +295,8 @@
 		<script src="assets/js/plugins.min.js"></script>
 		<script src="assets/js/custom.min.js"></script>
 		<!-- Color Switcher (Remove these lines)-->
+		<!--
 		<script src="assets/js/style-switcher.min.js"></script>
+		-->
 	</body>
 </html>
