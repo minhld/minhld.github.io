@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Minh Le - Observation System</title>
+		<!-- Favicons-->
+		<link rel="shortcut icon" href="assets/images/favicon.ico">
+		<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+		<!-- Web Fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Lora|Montserrat:400,500,600,700|Open+Sans:400,400i,700" rel="stylesheet">
+		<!-- Bootstrap core CSS-->
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Icon Fonts-->
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="assets/css/themify-icons.css" rel="stylesheet">
+		<link href="assets/css/et-line.css" rel="stylesheet">
+		<!-- Plugins-->
+		<link href="assets/css/owl.carousel.css" rel="stylesheet">
+		<link href="assets/css/magnific-popup.css" rel="stylesheet">
+		<link href="assets/css/vertical.min.css" rel="stylesheet">
+		<link href="assets/css/animate.css" rel="stylesheet">
+		<!-- Template core CSS-->
+		<link href="assets/css/template.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<!-- Preloader-->
+		<div class="page-loader">
+			<div class="cssload-container">
+				<div class="cssload-whirlpool"></div>
+			</div>
+		</div>
+		<!-- Preloader end-->
+
+		<!-- Header-->
+		<header class="header header-center">
+			<div class="container-fluid">
+				<!-- Brand-->
+				<div class="inner-header"><a class="inner-brand" href="index.html"><img class="brand-dark" src="assets/images/logo.png" width="30px" alt=""><img class="brand-light" src="assets/images/logo-light.png" width="30px" alt=""></a></div>
+				<!-- Navigation-->
+				<div class="inner-navigation collapse">
+					<div class="inner-nav onepage-nav">
+						<ul>
+							<li><a href="index.html#home"><span class="menu-item-span">Home</span></a></li>
+							<li><a href="index.html#profile"><span class="menu-item-span">Profile</span></a></li>
+							<li><a href="index.html#portfolio"><span class="menu-item-span">Work</span></a></li>
+							<li><a href="index.html#services"><span class="menu-item-span">Services</span></a></li>
+							<li><a href="index.html#resume"><span class="menu-item-span">Resume</span></a></li>
+							<li><a href="index.html#blog"><span class="menu-item-span">Blog</span></a></li>
+							<li><a href="index.html#contact"><span class="menu-item-span">Connect</span></a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- Mobile menu-->
+				<div class="nav-toggle"><a href="#" data-toggle="collapse" data-target=".inner-navigation"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a></div>
+			</div>
+		</header>
+		<!-- Header end-->
+
+		<!-- Wrapper-->
+		<div class="wrapper">
+
+			<!-- Blog-->
+			<section class="module">
+				<div class="container">
+					<div class="row">
+						<!-- Content-->
+						<div class="col-lg-8">
+							<!-- Post-->
+							<article class="post">
+								<div></div>
+								<div class="post-wrapper">
+									<div class="post-header">
+										<h1 class="post-title">Tiny Youtube Player</h1>
+										<ul class="post-meta h6">
+											<li>May 30, 2018</li>
+										</ul>
+									</div>
+									<div class="post-content">
+										<p>
+										<b>Intro</b><br/>
+										This simple app provides the convenient way to watch Youtube videos while doing something else.
+										It locates at the bottom right corner of the desktop, stays on the top most of all windows and never closes (even if user presses Window + D keys).
+										It turns 50% transparent when user moves to other windows or 100% visible when user clicks on. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/c_app2.png" width="360px">
+										</p>
+										<p>
+										<b>Development</b><br>
+										I developed this app in 3 days using C#. To customize the Youtube video list with images, title and description, I created Youtube List View with each item is a Youtube List Item.
+										</p>
+										<p>
+										<b>Instant Search</b><br>
+										The Tiny Youtube provides instant search, user types in the search text box and the results will come in the customized drop-down list. 
+										I used <a href="https://developers.google.com/youtube/">Youtube API</a> to implement this instant search feature. 
+										This API even allows developer to contact user profiles, playlists or upload video files.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/c_app3.png" width="360px">
+										</p>
+										<b>Youtube Player</b><br>
+										This is a big obstacle since the external window and mobile apps are not officially allowed to embed Youtube videos, so developer cannot simply use the <a href="https://www.c-sharpcorner.com/UploadFile/deepak.sharma00/how-to-play-flash-in-windows-forms-application-using-C-Sharp/">Shockwave Flash</a> component or <a href="https://www.mooict.com/c-tutorial-youtube-video-player-in-web-view/">Web Browser</a> to play Youtube videos like before.
+										</p>
+										<p>
+										For the work-around solution, I still use Web Browser component, howerver, I gives it a bit update: Since the <a href="https://msdn.microsoft.com/en-us/library/system.windows.forms.webbrowser%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396">WebBrowser</a> control on window form behaves differently from the full Internet Explorer, developer has to implement Feature Control to make it functions closely to the functionality of IE as possible, for example FEATURE_BROWSER_EMULATION.
+
+										The guideline for this solution can be <a href="https://stackoverflow.com/questions/32749984/youtube-embeded-videos-in-winforms">found here on Stack-Overflow</a>.
+										</p>
+										<p>
+										Another problem is some contents are blocked on embedded drivers due to its copyright (with most of the copyrighted videos), so user has to go to Youtube website to watch. 
+										To overcome this issue, I set the additional header <b>Referer</b> to <i>http://youtube.com</i> whenever I put the URL to the browser. 
+										The similar problem can be <a href="https://github.com/gilesvangruisen/Swift-YouTube-Player/issues/57">found here</a> for Android as well.
+										</p>
+										<p>
+										To adjust the player, I follow the <a href="https://developers.google.com/youtube/player_parameters">guideline of using Youtube GET method</a> with the following parameters:
+										<ul>
+											<li><b>autoplay</b> set to 1 for auto playing</li>
+											<li><b>cc_load_policy</b> set to 1 to close caption</li>
+											<li><b>controls</b> set to 0 to close the controls panel including the play, next buttons</li>
+											<li><b>disablekb</b> set to 1 to disable keyboard</li>
+											<li><b>fs</b> set to 0 to avoid full-screen function</li>
+											<li><b>iv_load_policy</b> set to 3 to avoid video annotations</li>
+											<li><b>modestbranding</b> set to 1 to hide Youtube icon</li>
+											<li><b>rel</b> set to 0 to not showing relative videos</li>
+											<li><b>showinfo</b> set to 0 to hide video's title and description</li>
+										</ul>
+										</p>
+										<p>
+										And this below image shows the final result, I feel very convenient to watch Youtube this way while doing my work. I don't have to switch to web browser to see what's going on. 
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/c_app6.png">
+										</p>
+										<p>
+										<b>Demo Video</b><br/>
+										Please watch the following video for more detail. Source code of this project can be <a href="https://github.com/minhld/TinyYoutube">found here on my Github page</a>
+										</p>
+										<p style="text-align: center;">
+											<iframe style="width: 500px; height: 330px;" src="https://www.youtube.com/embed/R8tNJcCr10I?autoplay=0&cc_load_policy=1&controls=1&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&rel=0&playsinline=1"></iframe>
+										</p>
+										</p>
+									</div>
+									<div class="post-footer">
+										<div class="post-tags"><a href="#">C#</a><a href="#">Youtube API</a><a href="#">User Control</a></div>
+									</div>
+								</div>
+							</article>
+							<!-- Post end-->
+
+						</div>
+						<!-- Content end-->
+
+						<!-- Sidebar-->
+						<div class="col-lg-4">
+							<div class="sidebar">
+								<!-- Search widget-->
+								<aside class="widget widget_search">
+									<form>
+										<input class="form-control" type="search" placeholder="Type search here">
+										<button class="search-button" type="submit"><span class="fa fa-search"></span></button>
+									</form>
+								</aside>
+								
+								<aside class="widget widget_recent_entries_custom">
+									<div class="widget-title">
+										<h6>Related Projects</h6>
+									</div>
+									<ul id="event_container">
+										<li class="clearfix">
+											<div>
+												<a href="blog-research.html">RMI on Android</a>
+												<span class="post-date">October 06, 2017</span>
+											</div>
+										</li>
+										<li class="clearfix">
+											<div>
+												<a href="blog-observe.html">Observation System</a>
+												<span class="post-date">March 19, 2018</span>
+											</div>
+										</li>
+									</ul>
+								</aside>
+		
+								<!-- Tags widget-->
+								<aside class="widget widget_tag_cloud">
+									<div class="widget-title">
+										<h6>Tags</h6>
+									</div>
+									<div class="tagcloud"><a href="#">C#</a><a href="#">Youtube API</a><a href="#">User Control</a></div>
+								</aside>
+							</div>
+						</div>
+						<!-- Sidebar end-->
+					</div>
+				</div>
+			</section>
+			<!-- Blog end-->
+
+			<!-- Footer-->
+			<footer class="footer">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-md-6"><span class="copyright">© 2018 Minh Le, All Rights Reserved.</span></div>
+						<div class="col-md-6">
+							<ul class="social-icons">
+								<li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus-square"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter-square"></i></a></li>
+								<li><a href="#"><i class="fa fa-behance-square"></i></a></li>
+								<li><a href="#"><i class="fa fa-pinterest-square"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- Footer end-->
+		</div>
+		<!-- Wrapper end-->
+		<link id="style-switcher" href="assets/css/template-green.css" rel="stylesheet" type="text/css">
+		
+		<!-- Scripts-->
+		<script src="assets/js/jquery-2.2.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0rANX07hh6ASNKdBr4mZH0KZSqbHYc3Q"></script>
+		<script src="assets/js/plugins.min.js"></script>
+		<script src="assets/js/custom.min.js"></script>
+		<!-- Color Switcher (Remove these lines)-->
+		<!--  
+		<script src="assets/js/style-switcher.min.js"></script>
+		-->
+	</body>
+</html>
