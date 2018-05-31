@@ -91,26 +91,73 @@
 										This article will describe in detail the technologies that I used to adopt the library and develop the modules.
 										</p>
 										<p>
-										<b>Design</b><br>
-										In this project, I used <a href="http://robots.ros.org/">ROS platform</a> for video streaming from the camera to the third party application.
-										I made the Monitor App which subscribes to the video stream of the ROS system, this app uses <a href="https://opencv.org">OpenCV</a> to process every single frame to detect motions. 
+										<b>Network Detection</b><br>
+										I updated a bit the UI from the experimental apps and create the following layout. This allows user to connect via both WiFi and WiFi-Direct interfaces.
 										<p style="text-align: center;">
 										<img src="assets/images/blog/app-01.png" width="300px">
 										</p>
 										<p>
-										The image process comprises:
-										<ul>
-											<li>Step 1: turning the image into grayscale</li>
-											<li>Step 2: subtracting two consecutive images to find the differences</li>
-											<li>Step 3: detect and draw contours of the difference areas</li>
-										</ul>
-										This process is performed on every frame. When the contours are found, the frame is contour-marked and denoted as evident for an occurring event, it will be saved to the <b>File System</b> and the according event is stored into the database (<a href="https://www.mongodb.com">MongoDB</a>).
-										</p><p style="text-align: center;">
-										<img src="assets/images/blog/app-02.png" width="300px">
-										</p><p>
-										For the accessibility of mobile and web apps to the File Server and events in the database, I designed a <b>REST Service</b> hosted on Tomcat server, this web service provides basic functionality for listing and deleting events, as well as retrieving evident imageries. I also developed a <b>Video Streaming</b> topic to enable video streaming to the web and mobile apps. The video stream is available in the form of URL so that developer can easily embed in an IMG tag.
+										<b>Chat App</b><br>
+										Chat app simply sends messages between the devices.
+										I wrap each message by a <code>UserMessage</code> object, each contains <code>message</code>, <code>user</code> (<code>userId</code> and <code>userName</code>) and <code>createAt</code> (time).
 										</p>
-										Regarding web front-end, it is built using <a href="http://jquery.com">JQuery</a> to implement interactive interface. On Android platform, I used <a href="http://wiki.ros.org/android">ROS For Android</a> library to be capable of connecting to the ROS system.
+										<p>
+										I designed the sendMessage method as follows
+										<ul>
+											<li>The client sends a new message to <code>BackEnd</code> with a timestamp</li>
+											<li><code>BackEnd</code> firstly stores the new message inside a <code>Message Circular Buffer</code></li>
+											<li>Then <code>BackEnd</code> search for the messages that newer than the <code>recvTime</code>. This searching process takes <code>O(n)</code> time because the newest messages are always at the front of the buffer</li>
+											<li>The <code>sendMessage</code> method returns the list of newest messages</li>
+										</ul>
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/send_msg_def.png" width="400px">
+										</p>
+										<p>
+										The architecture of this application is very simple. 
+										All that developer has to do is defining the sendMessage method as described above.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/res_app_0.png" width="450px">
+										</p>
+										<p>
+										When the developer compiles the code, the compiler will automatically generate the following <code>FrontEnd</code> (for the client) and <code>BackEnd</code> (for the host).
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/send_msg.png" width="500px">
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/send_msg_svr.png" width="500px">
+										</p>
+										<p>
+										Here is the final result
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/app-02.png" width="300px">
+										</p>
+										<p>
+										<b>Remote Browser App</b><br>
+										For this application, I define a method to download content from an URL as follows. I used <a href="http://square.github.io/okhttp/">OkHttp</a> library to simplify the network stuff.
+										<p style="text-align: center;">
+										<img src="assets/images/blog/get_url_def.png" width="400px">
+										</p>
+										For displaying contents, I used Android <a href="https://developer.android.com/reference/android/webkit/WebView">WebView</a> component. WebView will help to load a HTML link and all inner links inside the page recursively. To interfere this loading process, I used <a href="https://github.com/NanoHttpd/nanohttpd">NanoHttpD</a> as a Local Web Server. Instead of letting the <code>WebView</code> load the original URL, I let it load the updated URL which navigate the request to the <code>NanoHttpD</code> local server.
+										</p>
+										<p>
+										On the <code>BackEnd</code> side, it will receive the original URL, load the actual content using WiFi network, and return the result back to the client.
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/res_app_1.png" width="450px">
+										</p>
+
+										<p>
+										When the developer compiles the code, the compiler will automatically generate the following <code>FrontEnd</code> (for the client) and <code>BackEnd</code> (for the host).
+										</p>
+										<p style="text-align: center;">
+										<img src="assets/images/blog/get_url.png" width="480px">
+										</p>
+										<p>
+										Here is the final result
 										</p>
 										<p style="text-align: center;">
 										<img src="assets/images/blog/app-03.png" width="300px">
