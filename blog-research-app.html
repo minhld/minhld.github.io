@@ -98,7 +98,7 @@
 										</p>
 										<p>
 										<b>Chat App</b><br>
-										Chat app simply sends messages between the devices.
+										Chat app simply sends messages between the devices connecting directly, without Internet connection.
 										I wrap each message by a <code>UserMessage</code> object, each contains <code>message</code>, <code>user</code> (<code>userId</code> and <code>userName</code>) and <code>createAt</code> (time).
 										</p>
 										<p>
@@ -137,7 +137,7 @@
 										</p>
 										<p>
 										<b>Remote Browser App</b><br>
-										For this application, I define a method to download content from an URL as follows. I used <a href="http://square.github.io/okhttp/">OkHttp</a> library to simplify the network stuff.
+										Remote Browser is fetching network data from another device, therefore no Internet required. For this application, I define a method to download content from an URL as follows. I used <a href="http://square.github.io/okhttp/">OkHttp</a> library to simplify the network stuff.
 										<p style="text-align: center;">
 										<img src="assets/images/blog/get_url_def.png" width="400px">
 										</p>
